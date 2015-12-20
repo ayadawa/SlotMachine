@@ -1,0 +1,39 @@
+public class Tester2
+{
+	public static void main(String[] args)
+	{
+		SlotMachine sm = new SlotMachine(3, "lemon", "grape", "cherry", "seven", "bar");
+		
+		System.out.println("Actual: " + sm.getNumberOfOutcomes());
+		System.out.println("Expected: 125");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("lemon apple cherry"));
+		System.out.println("Expected: false");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("grape cherry bar"));
+		System.out.println("Expected: true");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("seven seven seven"));
+		System.out.println("Expected: true");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("bar"));
+		System.out.println("Expected: false");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("cherry cherry"));
+		System.out.println("Expected: false");
+
+		sm.calculateOutcomesWithoutRepeats();
+
+		System.out.println("Actual: " + sm.outcomes.contains("lemon bar grape"));
+		System.out.println("Expected: true");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("lemon"));
+		System.out.println("Expected: false");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("cherry seven seven"));
+		System.out.println("Expected: false");
+		
+		System.out.println("Actual: " + sm.outcomes.contains("seven bar grape"));
+		System.out.println("Expected: true");
+	}
+}
