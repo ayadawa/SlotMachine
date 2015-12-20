@@ -1,0 +1,127 @@
+import java.util.ArrayList;
+
+public class SlotMachine
+{
+	private String[] symbols;
+	private int wheels;
+	public ArrayList<String> outcomes;
+	
+	/**
+	 * SlotMachine constructor. 
+	 * 
+	 * @param newWheels the number of wheels displayed
+	 * @param newSymbols the symbols that appear on each wheel
+	 */
+	public SlotMachine(int newWheels, String... newSymbols)
+	{
+		wheels = newWheels; 
+	     symbols = new String[newSymbols.length]; 
+	     symbols = newSymbols;
+		outcomes = new ArrayList<String>();
+		calculateAllOutcomes();
+	}
+	
+	/**
+	 * printOutcomes. A convenience method for testing.
+	 */
+	public void printOutcomes()
+	{
+		int i = 1;
+		for(String s : outcomes)
+		{
+			System.out.println( i+ ": "+ s);
+			i++;
+		}
+	}
+	
+	/**
+	 * getNumberOfOutcomes. Calculate the total number of
+	 * possible outcomes given the number of symbols, number
+	 * of wheels, and that symbols may be repeated.
+	 * 
+	 * @return an integer representing the total number of possible outcomes
+	 */
+	public int getNumberOfOutcomes()
+	{
+		int numSymbols = symbols.length;
+		int result = 1;
+		for (int i = 0; i< wheels; i++)
+		{
+			result = result * numSymbols;
+		}
+		return result;
+	}
+	
+	/**
+	 * calculateAllOutcomes. Calculate all possible space-separated outcomes 
+	 * on this slot machine and store them in the outcomes ArrayList. 
+	 * Symbols can be repeated.
+	 * @param string 
+	 * @param i 
+	 * 
+	 */
+
+	public void calculateAllOutcomes()
+	{
+		for(int i=0; i< symbols.length; i++)
+		{
+			String s = symbols[i];
+			calculateAllOutcomes(wheels - 1, s); 
+		}
+	}
+	
+	private void calculateAllOutcomes(int currentWheel, String outcomesString)
+	{
+		if(currentWheel == 0)
+		{
+			outcomes.add(outcomesString);
+		}
+		else
+		{
+			for (int i=0; i< symbols.length; ++i)
+			{
+				String outcomesString1 = outcomesString + " " + symbols[i]; 
+				calculateAllOutcomes(currentWheel - 1, outcomesString1);
+			}
+		}
+	}
+
+	
+	/**
+	 * calculateOutcomesWithoutRepeats. Calculate all possible 
+	 * space-separated outcomes that DO NOT INCLUDE REPEATED SYMBOLS
+	 * and store them in the outcomes ArrayList. 
+	 */
+	public void calculateOutcomesWithoutRepeats()
+	{
+		outcomes.clear();
+
+        for (int i=0; i<symbols.length; ++i)
+        {
+        	String s = symbols[i]; 
+        	calculateOutcomesWithoutRepeats(wheels -1, s, s);
+        }
+        
+	}
+	
+	private void calculateOutcomesWithoutRepeats(int currentWheel, String outcomesString, String previousSymbols )
+	{
+		if (currentWheel == 0)
+		{
+			outcomes.add(outcomesString);
+		}
+		else
+		{
+	       for (int i=0; i<symbols.length; ++i)
+	        {
+	    	   String s = symbols[i]; 
+	    	   if(outcomesString.contains(s))
+	    	   {
+	    		   continue;
+	    	   }
+	    	   String symbolsBuilder = outcomesString + " " + s;
+	    	   calculateOutcomesWithoutRepeats(currentWheel -1, symbolsBuilder, previousSymbols); 
+	        }
+		}
+	}
+}
